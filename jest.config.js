@@ -1,3 +1,3 @@
 module.exports = {
-  projects: ['<rootDir>/libs/engine'],
+  projects: ['<rootDir>/libs/engine', '<rootDir>/apps/cli'],
 };

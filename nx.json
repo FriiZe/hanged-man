@@ -25,6 +25,9 @@
   "projects": {
     "engine": {
       "tags": []
+    },
+    "cli": {
+      "tags": []
     }
   }
 }
