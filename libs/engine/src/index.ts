@@ -1,1 +1,4 @@
-export * from './lib/engine';
+import engine from './engine'
+
+export default engine
+
