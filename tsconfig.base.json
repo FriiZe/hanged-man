@@ -21,6 +21,7 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
+    "strict": true,
     "paths": {
       "@hanged-man/engine": [
         "libs/engine/src/index.ts"

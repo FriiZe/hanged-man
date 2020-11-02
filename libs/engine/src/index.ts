@@ -1,4 +1,4 @@
-import engine from './engine'
+import Engine from './Engine'
 
-export default engine
-
+export * from './errors'
+export default Engine

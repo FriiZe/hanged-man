@@ -10,7 +10,9 @@
         "lint": {
           "builder": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": ["libs/engine/**/*.ts"]
+            "lintFilePatterns": [
+              "libs/engine/**/*.ts"
+            ]
           }
         },
         "test": {
@@ -33,21 +35,14 @@
           "builder": "@nrwl/node:build",
           "options": {
             "outputPath": "dist/apps/cli",
-            "main": "apps/cli/src/main.ts",
-            "tsConfig": "apps/cli/tsconfig.app.json",
-            "assets": ["apps/cli/src/assets"]
+            "main": "apps/cli/src/index.ts",
+            "tsConfig": "apps/cli/tsconfig.app.json"
           },
           "configurations": {
             "production": {
               "optimization": true,
               "extractLicenses": true,
-              "inspect": false,
-              "fileReplacements": [
-                {
-                  "replace": "apps/cli/src/environments/environment.ts",
-                  "with": "apps/cli/src/environments/environment.prod.ts"
-                }
-              ]
+              "inspect": false
             }
           }
         },
@@ -60,7 +55,9 @@
         "lint": {
           "builder": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": ["apps/cli/**/*.ts"]
+            "lintFilePatterns": [
+              "apps/cli/**/*.ts"
+            ]
           }
         },
         "test": {
@@ -86,8 +83,13 @@
             "main": "apps/front/src/main.tsx",
             "polyfills": "apps/front/src/polyfills.ts",
             "tsConfig": "apps/front/tsconfig.app.json",
-            "assets": ["apps/front/src/favicon.ico", "apps/front/src/assets"],
-            "styles": ["apps/front/src/styles.css"],
+            "assets": [
+              "apps/front/src/favicon.ico",
+              "apps/front/src/assets"
+            ],
+            "styles": [
+              "apps/front/src/styles.css"
+            ],
             "scripts": [],
             "webpackConfig": "@nrwl/react/plugins/webpack"
           },
@@ -130,7 +132,9 @@
         "lint": {
           "builder": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": ["apps/front/**/*.{ts,tsx,js,jsx}"]
+            "lintFilePatterns": [
+              "apps/front/**/*.{ts,tsx,js,jsx}"
+            ]
           }
         },
         "test": {
@@ -163,7 +167,9 @@
         "lint": {
           "builder": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": ["apps/front-e2e/**/*.{js,ts}"]
+            "lintFilePatterns": [
+              "apps/front-e2e/**/*.{js,ts}"
+            ]
           }
         }
       }
