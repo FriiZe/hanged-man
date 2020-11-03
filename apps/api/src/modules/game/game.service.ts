@@ -104,7 +104,14 @@ export class GameService {
       throw new ForbiddenActionError();
     }
 
-    let partialWord = currentGame.checkInput(input);
+    let partialWord: string;
+    try {
+      partialWord = currentGame.checkInput(input);
+    } catch (err) {
+      currentGame.nextPlayer();
+      throw err;
+    }
+
     const isFinished = currentGame.gameState() !== 0;
     const winner = (currentGame.gameState() === 1)
       ? currentPlayer
