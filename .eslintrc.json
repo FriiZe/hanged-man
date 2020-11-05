@@ -2,9 +2,9 @@
   "root": true,
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
-    "ecmaVersion": 2018,
+    "ecmaVersion": 2020,
     "sourceType": "module",
-    "project": "./tsconfig.*?.json"
+    "project": "./tsconfig.base.json"
   },
   "ignorePatterns": [
     "**/*"
@@ -14,11 +14,9 @@
     "@nrwl/nx"
   ],
   "extends": [
-    "airbnb-typescript",
+    "airbnb-typescript/base",
     "plugin:@typescript-eslint/eslint-recommended",
-    "plugin:@typescript-eslint/recommended",
-    "prettier",
-    "prettier/@typescript-eslint"
+    "plugin:@typescript-eslint/recommended"
   ],
   "rules": {
     "@nrwl/nx/enforce-module-boundaries": [
@@ -36,15 +34,5 @@
         ]
       }
     ]
-  },
-  "overrides": [
-    {
-      "files": [
-        "*.tsx"
-      ],
-      "rules": {
-        "@typescript-eslint/no-unused-vars": "off"
-      }
-    }
-  ]
+  }
 }

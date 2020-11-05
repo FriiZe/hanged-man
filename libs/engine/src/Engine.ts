@@ -1,9 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import shuffle from 'shuffle-array';
-import removeAccents from 'remove-accents'
+import removeAccents from 'remove-accents';
 import { LetterAlreadySuggestedError, WordAlreadySuggestedError } from './errors';
 import words from './words';
 
+// TODO: Fix bugs
 class Engine {
   private static readonly TRIALS = 15;
 
@@ -29,23 +30,23 @@ class Engine {
     this.word = removeAccents(words[random]).toUpperCase();
 
     this.partialWord = [...this.word]
-      .map((letter) => letter.match(/[a-zA-Z]/) ? '_' : letter).join('');
+      .map((letter) => (letter.match(/[a-zA-Z]/) ? '_' : letter)).join('');
 
     this.players = shuffle(this.players);
   }
 
   public gameState(): number {
-    if (this.partialWord === this.word) { return 1 }
-    if (this.trials === 0) { return -1 }
-    return 0
+    if (this.partialWord === this.word) { return 1; }
+    if (this.trials === 0) { return -1; }
+    return 0;
   }
 
   public getCurrentPlayer(): string {
-    return this.players[this.currentPlayerIndex]
+    return this.players[this.currentPlayerIndex];
   }
 
   public nextPlayer(): void {
-    this.currentPlayerIndex = (this.currentPlayerIndex + 1) % this.players.length
+    this.currentPlayerIndex = (this.currentPlayerIndex + 1) % this.players.length;
 
     if (this.currentPlayerIndex === 0) {
       this.trials -= 1;
@@ -54,29 +55,29 @@ class Engine {
 
   public checkInput(input: string): string {
     this.validateInput(input);
-    const capitalized = input.toUpperCase()
+    const capitalized = input.toUpperCase();
 
     if (capitalized.length === 1) {
-      this.letterHistory.push(capitalized)
-      return this.checkLetter(capitalized)
+      this.letterHistory.push(capitalized);
+      return this.checkLetter(capitalized);
     }
 
-    this.wordHistory.push(capitalized)
-    return this.checkWord(capitalized)
+    this.wordHistory.push(capitalized);
+    return this.checkWord(capitalized);
   }
 
   private validateInput(input: string): void {
     if (this.letterHistory.includes(input)) {
-      throw new LetterAlreadySuggestedError()
+      throw new LetterAlreadySuggestedError();
     }
 
     if (this.wordHistory.includes(input)) {
-      throw new WordAlreadySuggestedError()
+      throw new WordAlreadySuggestedError();
     }
   }
 
   private checkWord(word: string): string {
-    return [...word].map(letter => this.checkLetter(letter)).toString();
+    return [...word].map((letter) => this.checkLetter(letter)).toString();
   }
 
   private checkLetter(letter: string): string {

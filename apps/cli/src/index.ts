@@ -11,8 +11,8 @@ const promptPlayersAmount = (): number => {
   }
   while (amount < 1 || amount > 4);
 
-  return amount
-}
+  return amount;
+};
 
 const promptPlayersName = (amount: number): string[] => {
   const names: string[] = [];
@@ -23,51 +23,51 @@ const promptPlayersName = (amount: number): string[] => {
     names.push(name);
   }
 
-  return names
-}
+  return names;
+};
 
 const promptTrials = (): number | undefined => {
   console.log("Combien d'essais ? (laisser vide pour 15)");
-  const answer = scanf('%d\n') as unknown as number
+  const answer = scanf('%d\n') as unknown as number;
   return (answer === 0)
     ? undefined
-    : answer
-}
+    : answer;
+};
 
 const promptLetterOrWord = (): string => {
-  console.log('Propose une lettre ou un mot :')
-  return scanf('%S\n').toString()
-}
+  console.log('Propose une lettre ou un mot :');
+  return scanf('%S\n').toString();
+};
 
 const showAnnouncement = (engine: Engine): void => {
-  console.log(`${engine.getCurrentPlayer()}, c'est à toi de jouer`)
-  console.log(`Le mot : ${engine.partialWord}`)
-}
+  console.log(`${engine.getCurrentPlayer()}, c'est à toi de jouer`);
+  console.log(`Le mot : ${engine.partialWord}`);
+};
 
 const handleError = (error: unknown): void => {
-  if (error instanceof LetterAlreadySuggestedError ||
-      error instanceof WordAlreadySuggestedError) {
-    console.log(error.message)
+  if (error instanceof LetterAlreadySuggestedError
+      || error instanceof WordAlreadySuggestedError) {
+    console.log(error.message);
   }
-}
+};
 
 const main = () => {
-  const amount = promptPlayersAmount()
-  const names = promptPlayersName(amount)
-  const trials = promptTrials()
+  const amount = promptPlayersAmount();
+  const names = promptPlayersName(amount);
+  const trials = promptTrials();
 
-  const engine = new Engine(names, trials)
+  const engine = new Engine(names, trials);
 
   while (engine.gameState() === 0) {
-    showAnnouncement(engine)
+    showAnnouncement(engine);
 
-    const input = promptLetterOrWord()
-    console.clear()
+    const input = promptLetterOrWord();
+    console.clear();
 
     try {
-      engine.checkInput(input)
+      engine.checkInput(input);
     } catch (error: unknown) {
-      handleError(error)
+      handleError(error);
     }
 
     if (engine.gameState() === 0) {
@@ -75,11 +75,11 @@ const main = () => {
     }
   }
 
-  const message = (engine.gameState() === - 1)
+  const message = (engine.gameState() === -1)
     ? `Perdu, le mot était : ${engine.word}`
-    : `Bravo ${engine.getCurrentPlayer()}, tu as gagné !`
+    : `Bravo ${engine.getCurrentPlayer()}, tu as gagné !`;
 
-  console.log(message)
+  console.log(message);
 };
 
 main();
