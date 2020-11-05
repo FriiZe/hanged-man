@@ -1,0 +1,44 @@
+version: "3.8"
+
+services:
+  traefik:
+    image: traefik:2.2
+    restart: on-failure
+    command:
+      - --api.insecure=true
+      - --api.dashboard=false
+      - --providers.docker=true
+      - --providers.docker.exposedbydefault=false
+      - --entrypoints.web.address=:80
+    ports:
+      - 80:80
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+
+  postgres:
+    image: postgres:13-alpine
+    restart: on-failure
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_PASSWORD: eQq5m2Ic7aYLcH3JK8saxTPUBfU0SiPA6mfICuOMmfayXhjQRiZlC38dS4d4guAx
+    volumes:
+      - ./volumes/pgdata/:/var/lib/postgresql/data
+
+  api:
+    image: node:14-alpine
+    user: 1000:1000
+    command: npm run start api
+    working_dir: /app
+    restart: on-failure
+    environment:
+      PORT: 8080
+    volumes:
+      - ./:/app
+    depends_on:
+      - traefik
+      - postgres
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.api.rule=Host(`api.hanged.man`)
+      - traefik.http.services.api.loadbalancer.server.port=8080
