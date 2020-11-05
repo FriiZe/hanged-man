@@ -33,6 +33,10 @@ services:
     restart: on-failure
     environment:
       PORT: 8080
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USER: postgres
+      DB_PASS: eQq5m2Ic7aYLcH3JK8saxTPUBfU0SiPA6mfICuOMmfayXhjQRiZlC38dS4d4guAx
     volumes:
       - ./:/app
     depends_on:

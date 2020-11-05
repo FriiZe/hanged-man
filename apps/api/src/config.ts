@@ -1,7 +1,21 @@
 import { get } from 'env-var';
 
-const port = get('PORT')
+export const port = get('PORT')
   .required()
   .asPortNumber();
 
-export { port };
+export const dbHost = get('DB_HOST')
+  .required()
+  .asString();
+
+export const dbPort = get('DB_PORT')
+  .required()
+  .asPortNumber();
+
+export const dbUser = get('DB_USER')
+  .required()
+  .asString();
+
+export const dbPass = get('DB_PASS')
+  .required()
+  .asString();

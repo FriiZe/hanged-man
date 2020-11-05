@@ -1,20 +1,34 @@
-import express, { Request, Response } from 'express';
-import { port } from './config';
+import { createConnection } from 'typeorm';
+import express from 'express';
+import {
+  dbHost, dbPass, dbPort, dbUser, port,
+} from './config';
+import Game from './entities/Game';
+import History from './entities/History';
+import Player from './entities/Player';
+import Room from './entities/Room';
+import User from './entities/User';
 
-const app = express();
-
-app.get('/', (req: Request, res: Response) => {
-  res.send({ message: 'Welcome to api!' });
-});
-
-app.get('*', (req: Request, res: Response) => {
-  res.status(404).send({
-    message: 'The requested route was not found',
+const main = async () => {
+  await createConnection({
+    type: 'postgres',
+    host: dbHost,
+    port: dbPort,
+    password: dbPass,
+    username: dbUser,
+    entities: [
+      Game,
+      History,
+      Player,
+      Room,
+      User,
+    ],
+    synchronize: true,
   });
-});
 
-const server = app.listen(port, () => {
-  console.log(`Listening at http://localhost:${port}/`);
-});
+  const app = express();
 
-server.on('error', console.error);
+  app.listen(port, () => { console.log(`Listening at http://localhost:${port}`); });
+};
+
+void main();

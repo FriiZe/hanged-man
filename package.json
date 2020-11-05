@@ -31,9 +31,12 @@
   "dependencies": {
     "env-var": "^6.3.0",
     "express": "4.17.1",
+    "pg": "^8.4.2",
+    "reflect-metadata": "^0.1.13",
     "remove-accents": "^0.4.2",
     "scanf": "^1.1.2",
-    "shuffle-array": "^1.0.1"
+    "shuffle-array": "^1.0.1",
+    "typeorm": "^0.2.29"
   },
   "devDependencies": {
     "@nrwl/cli": "10.3.1",
@@ -44,7 +47,7 @@
     "@nrwl/workspace": "10.3.1",
     "@types/express": "4.17.0",
     "@types/jest": "26.0.8",
-    "@types/node": "~8.9.4",
+    "@types/node": "^8.9.5",
     "@types/shuffle-array": "^1.0.0",
     "@typescript-eslint/eslint-plugin": "^4.6.1",
     "@typescript-eslint/parser": "4.3.0",
