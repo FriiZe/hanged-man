@@ -37,6 +37,8 @@ services:
       DB_PORT: 5432
       DB_USER: postgres
       DB_PASS: eQq5m2Ic7aYLcH3JK8saxTPUBfU0SiPA6mfICuOMmfayXhjQRiZlC38dS4d4guAx
+      SALT: P3XuhmQ7rBQATevCBNTyZHp0Zh2DyaCpqnQ9ROz9KIHqLKp7uhNxKxTxzh6H4W1b
+      JWT_SECRET: gawR393LT0M7XiokXbZifKyraZJNf0J2BXZL4uWrs0t3Q3CgaHHHIAS5bY3uAO04
     volumes:
       - ./:/app
     depends_on:

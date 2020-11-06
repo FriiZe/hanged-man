@@ -1,10 +1,10 @@
 import {
-  Column, CreateDateColumn, Entity, PrimaryColumn,
+  Column, CreateDateColumn, Entity, PrimaryGeneratedColumn,
 } from 'typeorm';
 
 @Entity()
 class User {
-  @PrimaryColumn('uuid')
+  @PrimaryGeneratedColumn('uuid')
   public id!: string;
 
   @Column({

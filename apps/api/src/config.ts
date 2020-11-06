@@ -19,3 +19,11 @@ export const dbUser = get('DB_USER')
 export const dbPass = get('DB_PASS')
   .required()
   .asString();
+
+export const salt = get('SALT')
+  .required()
+  .asString();
+
+export const jwtSecret = get('JWT_SECRET')
+  .required()
+  .asString();
