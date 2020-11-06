@@ -1,5 +1,5 @@
 import { pbkdf2Sync } from 'crypto';
-import { sign } from 'jsonwebtoken';
+import { sign, verify } from 'jsonwebtoken';
 import { getRepository } from 'typeorm';
 import { jwtSecret, salt } from '../config';
 import User from '../entities/User';
@@ -14,6 +14,7 @@ export const login = async (username: string, password: string): Promise<string>
     throw new BadCredentialsError();
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { password: pass, ...passwordlessUser } = user;
   return sign(passwordlessUser, jwtSecret);
 };
@@ -29,3 +30,11 @@ export const register = async (username: string, password: string): Promise<void
   const hashedPassword = pbkdf2Sync(password, salt, 100000, 64, 'sha512').toString('base64');
   await repository.insert({ username, password: hashedPassword });
 };
+
+export const checkToken = (token: string): Promise<boolean> => new Promise<boolean>(
+  (resolve) => {
+    verify(token, jwtSecret, (err, _) => {
+      resolve(err == null);
+    });
+  },
+);

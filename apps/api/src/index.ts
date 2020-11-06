@@ -1,4 +1,4 @@
-import { Connection, createConnection, getConnection } from 'typeorm';
+import { createConnection } from 'typeorm';
 import express from 'express';
 import helmet from 'helmet';
 import { json, urlencoded } from 'body-parser';
