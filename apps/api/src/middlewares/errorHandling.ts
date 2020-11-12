@@ -1,12 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
-import { ValidationError } from 'express-validator';
+import ValidationError from '../errors/ValidationError';
 import CustomError from '../utils/CustomError';
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const isValidationError = (error: any): error is ValidationError => {
-  const keys = ['param', 'msg', 'nestedErrors', 'location', 'value'];
-  return keys.every((k) => k in error);
-};
 
 const logError = (error: CustomError, request: Request): void => {
   const { getStatus, message, description } = error;
@@ -18,12 +12,10 @@ const handleValidationError = (
   request: Request,
   response: Response,
 ): void => {
-  const { msg, nestedErrors } = error;
-  const err = new CustomError('Unprocessable entity', 422, msg);
+  const { message, messages } = error;
+  const err = new CustomError('Unprocessable entity', 422, message);
 
-  if (nestedErrors !== undefined) {
-    nestedErrors.forEach((e) => { err.addData(e); });
-  }
+  messages.forEach((msg) => { err.addData(msg); });
 
   logError(err, request);
   response.status(err.getStatus).json(err.toJSON());
@@ -48,7 +40,7 @@ export const handleError = (
   response: Response,
   _next: NextFunction,
 ): void => {
-  if (isValidationError(error)) {
+  if (error instanceof ValidationError) {
     return handleValidationError(error, request, response);
   }
 

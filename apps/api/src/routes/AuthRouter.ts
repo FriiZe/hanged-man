@@ -1,26 +1,31 @@
-import {
-  NextFunction, Request, Response, Router,
-} from 'express';
+import { Router } from 'express';
 import { body } from 'express-validator';
 
 import { login, register } from '../controllers/auth';
+import createRoute from '../utils/createRoute';
 
 const AuthRouter = Router();
 
-AuthRouter.post(
-  '/login', [
+createRoute(
+  AuthRouter,
+  'post',
+  '/login',
+  login,
+  [
     body('username').isString(),
     body('password').isString(),
   ],
-  (req: Request, res: Response, next: NextFunction) => login(req, res, next),
 );
 
-AuthRouter.post(
-  '/register', [
+createRoute(
+  AuthRouter,
+  'post',
+  '/register',
+  register,
+  [
     body('username').isString(),
     body('password').isString(),
   ],
-  (req: Request, res: Response, next: NextFunction) => register(req, res, next),
 );
 
 export default AuthRouter;
