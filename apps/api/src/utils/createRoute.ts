@@ -33,7 +33,6 @@ const validateRequest = (request: Request): void => {
   const validation = validationResult(request);
   if (!validation.isEmpty()) {
     const messages = validation.array().map((el) => createMesage(el));
-    console.log(messages);
     throw new ValidationError(messages);
   }
 };

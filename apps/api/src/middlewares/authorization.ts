@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import { checkToken } from '../services/auth';
-import CustomError from '../utils/CustomError';
+import HttpError from '../errors/HttpError';
 
 const authorization = async (
   request: Request,
@@ -10,16 +10,16 @@ const authorization = async (
   const token = request.headers.authorization as string;
 
   if (token == null) {
-    return next(new CustomError('Bad request', 400, 'No token provided'));
+    return next(new HttpError(400, 'No token provided'));
   }
 
   if (!token.startsWith('Bearer ')) {
-    return next(new CustomError('Unauthorized', 401, 'Invalid token'));
+    return next(new HttpError(401, 'Invalid token'));
   }
 
   const sliced = token.slice(7);
   if (!await checkToken(sliced)) {
-    return next(new CustomError('Unauthorized', 401, 'Invalid token'));
+    return next(new HttpError(401, 'Invalid token'));
   }
 
   return next();
