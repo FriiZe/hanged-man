@@ -1,4 +1,5 @@
 import { createConnection } from 'typeorm';
+import cors from 'cors';
 import express from 'express';
 import helmet from 'helmet';
 import { json, urlencoded } from 'body-parser';
@@ -34,6 +35,7 @@ const main = async () => {
 
   app
     .use(helmet())
+    .use(cors())
     .use(urlencoded({ extended: true }))
     .use(json());
 
