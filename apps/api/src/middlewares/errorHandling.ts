@@ -1,10 +1,18 @@
 import { NextFunction, Request, Response } from 'express';
+import { EOL } from 'os';
 import ValidationError from '../errors/ValidationError';
 import HttpError from '../errors/HttpError';
+import { nodeEnv } from '../config';
 
 const logError = (error: HttpError, request: Request): void => {
-  const { getStatus, message } = error;
-  console.error(`${request.method} ${request.url} => ${getStatus}: ${message}`);
+  const { getStatus, message, stack } = error;
+
+  let msg = `${request.method} ${request.url} => ${getStatus}: ${message}`;
+  if (nodeEnv === 'DEVELOPMENT') {
+    msg += `${EOL}${stack}`;
+  }
+
+  console.error(msg);
 };
 
 const handleValidationError = (
@@ -25,7 +33,7 @@ export const handleNotFound = (request: Request, response: Response, next: NextF
   next(new HttpError(404, 'The requested route was not found'));
 };
 
-const handleCustomError = (
+const handleHttpError = (
   error: HttpError,
   request: Request,
   response: Response,
@@ -45,9 +53,9 @@ export const handleError = (
   }
 
   if (error instanceof HttpError) {
-    return handleCustomError(error, request, response);
+    return handleHttpError(error, request, response);
   }
 
   const err = new HttpError();
-  return handleCustomError(err, request, response);
+  return handleHttpError(err, request, response);
 };

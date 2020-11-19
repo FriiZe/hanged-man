@@ -1,5 +1,5 @@
 import {
-  NextFunction, Request, Response, Router,
+  NextFunction, Request, RequestHandler, Response, Router,
 } from 'express';
 import { ValidationChain, validationResult, ValidationError as ExpressValidationError } from 'express-validator';
 import ValidationError from '../errors/ValidationError';
@@ -45,8 +45,8 @@ const validatedHandler = (handler: Handler) => (
   try {
     validateRequest(request);
     handler(request, response, next);
-  } catch (err: unknown) {
-    next(err);
+  } catch (error: unknown) {
+    next(error);
   }
 };
 
@@ -56,11 +56,12 @@ const createRoute = (
   path: string,
   handler: Handler,
   validators?: ValidationChain[],
+  ...middlewares: RequestHandler[]
 ): void => {
   if (validators !== undefined) {
-    router[method](path, validators, validatedHandler(handler));
+    router[method](path, validators, middlewares, validatedHandler(handler));
   } else {
-    router[method](path, handler);
+    router[method](path, handler, middlewares);
   }
 };
 

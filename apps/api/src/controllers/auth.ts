@@ -1,9 +1,10 @@
 import { NextFunction, Request, Response } from 'express';
-import { EntityNotFoundError } from 'typeorm/error/EntityNotFoundError';
 import * as service from '../services/auth';
 import HttpError from '../errors/HttpError';
 import BadCredentialsError from '../errors/BadCredentialsError';
 import UsernameAlreadyTakenError from '../errors/UsernameAlreadyTakenError';
+import EntityNotFoundError from '../errors/EntityNotFoundError';
+import TokenDto from '../dtos/TokenDto';
 
 export const login = async (
   request: Request,
@@ -12,10 +13,10 @@ export const login = async (
 ): Promise<void | Response> => {
   const { username, password } = request.body;
 
-  let token: string;
+  let tokenResult: TokenDto;
 
   try {
-    token = await service.login(username, password);
+    tokenResult = await service.login(username, password);
   } catch (error: unknown) {
     if (error instanceof EntityNotFoundError) {
       return next(new HttpError(404, error.message));
@@ -28,7 +29,7 @@ export const login = async (
     return next(new HttpError());
   }
 
-  return response.json({ token });
+  return response.json(tokenResult);
 };
 
 export const register = async (

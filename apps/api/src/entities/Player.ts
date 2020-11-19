@@ -7,6 +7,7 @@ class Player {
 
   @Column({
     nullable: false,
+    unique: true,
   })
   public displayName!: string;
 
@@ -24,6 +25,7 @@ class Player {
 
   @Column({
     nullable: false,
+    unique: true,
   })
   public userId!: string;
 }

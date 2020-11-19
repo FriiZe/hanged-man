@@ -27,3 +27,7 @@ export const salt = get('SALT')
 export const jwtSecret = get('JWT_SECRET')
   .required()
   .asString();
+
+export const nodeEnv = get('NODE_ENV')
+  .default('PRODUCTION')
+  .asEnum(['DEVELOPMENT', 'PRODUCTION']);

@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import { checkToken } from '../services/auth';
+import { checkToken, extractId } from '../services/auth';
 import HttpError from '../errors/HttpError';
 
 const authorization = async (
@@ -18,9 +18,11 @@ const authorization = async (
   }
 
   const sliced = token.slice(7);
-  if (!await checkToken(sliced)) {
+  if (!checkToken(sliced)) {
     return next(new HttpError(401, 'Invalid token'));
   }
+
+  response.locals.userId = extractId(sliced).id;
 
   return next();
 };

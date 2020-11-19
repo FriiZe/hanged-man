@@ -18,6 +18,7 @@ services:
   postgres:
     image: postgres:13-alpine
     restart: on-failure
+    command: "-c log_statement=all"
     ports:
       - 5432:5432
     environment:
@@ -39,6 +40,7 @@ services:
       DB_PASS: eQq5m2Ic7aYLcH3JK8saxTPUBfU0SiPA6mfICuOMmfayXhjQRiZlC38dS4d4guAx
       SALT: P3XuhmQ7rBQATevCBNTyZHp0Zh2DyaCpqnQ9ROz9KIHqLKp7uhNxKxTxzh6H4W1b
       JWT_SECRET: gawR393LT0M7XiokXbZifKyraZJNf0J2BXZL4uWrs0t3Q3CgaHHHIAS5bY3uAO04
+      NODE_ENV: DEVELOPMENT
     volumes:
       - ./:/app
     depends_on:
