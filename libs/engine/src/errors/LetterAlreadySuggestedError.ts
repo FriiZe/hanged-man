@@ -1,6 +1,6 @@
 class LetterAlreadySuggestedError extends Error {
   public constructor() {
-    super('Cette lettre a déjà été suggérée, tu perds ton tour !')
+    super('Cette lettre a déjà été suggérée, tu perds ton tour !');
   }
 }
 

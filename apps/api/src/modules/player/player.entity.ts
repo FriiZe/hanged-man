@@ -25,6 +25,12 @@ export class PlayerEntity {
 
   @Column({
     nullable: false,
+    default: false,
+  })
+  public isInRoom!: boolean;
+
+  @Column({
+    nullable: false,
     unique: true,
   })
   public userId!: string;

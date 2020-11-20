@@ -94,9 +94,5 @@
         }
       }
     }
-  },
-  "cli": {
-    "defaultCollection": "@nrwl/node"
-  },
-  "defaultProject": "cli"
+  }
 }

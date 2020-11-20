@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 
+import { LoggedUserDto } from '../../common/dtos/logged-user.dto';
 import { ConfigService } from '../core/services/config.service';
 import { JwtDto } from './dtos/jwt.dto';
 
@@ -16,7 +17,7 @@ class JwtStrategy extends PassportStrategy(Strategy) {
     });
   }
 
-  validate(payload: JwtDto & {iat: number}): JwtDto {
+  validate(payload: JwtDto): LoggedUserDto {
     const { iat, ...result } = payload;
 
     return result;

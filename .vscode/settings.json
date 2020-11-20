@@ -28,5 +28,7 @@
     "**/Thumbs.db": true,
     "**/volumes": true
   },
-  "typescript.tsdk": "node_modules/typescript/lib"
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "todo-tree.tree.showBadges": false,
+  "todo-tree.tree.showCountsInTree": true
 }

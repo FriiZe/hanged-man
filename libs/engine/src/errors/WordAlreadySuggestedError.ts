@@ -1,6 +1,6 @@
 class WordAlreadySuggestedError extends Error {
   public constructor() {
-    super('Ce mot a déjà été suggéré, tu perds ton tour !')
+    super('Ce mot a déjà été suggéré, tu perds ton tour !');
   }
 }
 

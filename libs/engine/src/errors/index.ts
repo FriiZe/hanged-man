@@ -1,4 +1,4 @@
-import LetterAlreadySuggestedError from './LetterAlreadySuggestedError'
-import WordAlreadySuggestedError from './WordAlreadySuggestedError'
+import LetterAlreadySuggestedError from './LetterAlreadySuggestedError';
+import WordAlreadySuggestedError from './WordAlreadySuggestedError';
 
-export { LetterAlreadySuggestedError, WordAlreadySuggestedError }
+export { LetterAlreadySuggestedError, WordAlreadySuggestedError };

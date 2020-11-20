@@ -6,6 +6,7 @@ import { AppModule } from './app.module';
 import { BadCredentialsFilter } from './filters/bad-credentials.filter';
 import { DisplayNameAlreadyTakenFilter } from './filters/display-name-already-taken.filter';
 import { EntityNotFoundFilter } from './filters/entity-not-found.filter';
+import { ForbiddenActionFilter } from './filters/forbidden-action.filter';
 import { UniqueDisplayNameUserFilter } from './filters/unique-display-name-user.filter';
 import { UsernameAlreadyTakenFilter } from './filters/username-already-taken.filter';
 import { ConfigService } from './modules/core/services/config.service';
@@ -25,6 +26,7 @@ const main = async (): Promise<void> => {
     new UsernameAlreadyTakenFilter(),
     new DisplayNameAlreadyTakenFilter(),
     new UniqueDisplayNameUserFilter(),
+    new ForbiddenActionFilter(),
   ];
 
   app.enableCors();

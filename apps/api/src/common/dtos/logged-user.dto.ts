@@ -1,6 +1,5 @@
-export interface JwtDto {
+export interface LoggedUserDto {
   id: string;
-  iat: number;
   username: string;
   createdAt: string;
 }

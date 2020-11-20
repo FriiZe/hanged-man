@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 
+import { IdDto } from '../../common/dtos/id.dto';
 import { UserRepository } from '../user/user.repository';
 import { CreatePlayerDto } from './dtos/create-player.dto';
-import { IdDto } from './dtos/id.dto';
 import { PlayerDto } from './dtos/player.dto';
 import { UpdatePlayerDto } from './dtos/update-player.dto';
 import { DisplayNameAlreadyTakenError } from './errors/display-name-already-taken.error';

@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import shuffle from 'shuffle-array';
 import removeAccents from 'remove-accents';
+import shuffle from 'shuffle-array';
+
 import { LetterAlreadySuggestedError, WordAlreadySuggestedError } from './errors';
 import words from './words';
 
