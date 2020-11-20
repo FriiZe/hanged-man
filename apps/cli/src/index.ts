@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
-import scanf from 'scanf';
 import Engine, { LetterAlreadySuggestedError, WordAlreadySuggestedError } from '@hanged-man/engine';
+import scanf from 'scanf';
 
 const promptPlayersAmount = (): number => {
   console.log('Combien de joueurs ?');

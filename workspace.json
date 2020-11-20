@@ -14,13 +14,6 @@
               "libs/engine/**/*.ts"
             ]
           }
-        },
-        "test": {
-          "builder": "@nrwl/jest:jest",
-          "options": {
-            "jestConfig": "libs/engine/jest.config.js",
-            "passWithNoTests": true
-          }
         }
       }
     },
@@ -36,7 +29,7 @@
           "options": {
             "outputPath": "dist/apps/cli",
             "main": "apps/cli/src/index.ts",
-            "tsConfig": "apps/cli/tsconfig.app.json"
+            "tsConfig": "apps/cli/tsconfig.json"
           },
           "configurations": {
             "production": {
@@ -54,17 +47,11 @@
         },
         "lint": {
           "builder": "@nrwl/linter:eslint",
+          "config": "apps/cli/.eslintrc.yaml",
           "options": {
             "lintFilePatterns": [
               "apps/cli/**/*.ts"
             ]
-          }
-        },
-        "test": {
-          "builder": "@nrwl/jest:jest",
-          "options": {
-            "jestConfig": "apps/cli/jest.config.js",
-            "passWithNoTests": true
           }
         }
       }
@@ -81,7 +68,7 @@
           "options": {
             "outputPath": "dist/apps/api",
             "main": "apps/api/src/index.ts",
-            "tsConfig": "apps/api/tsconfig.app.json"
+            "tsConfig": "apps/api/tsconfig.json"
           },
           "configurations": {
             "production": {
@@ -103,13 +90,6 @@
             "lintFilePatterns": [
               "apps/api/**/*.ts"
             ]
-          }
-        },
-        "test": {
-          "builder": "@nrwl/jest:jest",
-          "options": {
-            "jestConfig": "apps/api/jest.config.js",
-            "passWithNoTests": true
           }
         }
       }

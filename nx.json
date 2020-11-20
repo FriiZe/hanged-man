@@ -10,8 +10,7 @@
       "devDependencies": "*"
     },
     "tsconfig.base.json": "*",
-    "tslint.json": "*",
-    ".eslintrc.json": "*",
+    ".eslintrc.yaml": "*",
     "nx.json": "*"
   },
   "tasksRunnerOptions": {
@@ -20,9 +19,7 @@
       "options": {
         "cacheableOperations": [
           "build",
-          "lint",
-          "test",
-          "e2e"
+          "lint"
         ]
       }
     }

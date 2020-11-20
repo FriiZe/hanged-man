@@ -1,52 +1,39 @@
-import { createConnection } from 'typeorm';
-import cors from 'cors';
-import express from 'express';
+import { ExceptionFilter, PipeTransform, ValidationPipe } from '@nestjs/common';
+import { NestFactory } from '@nestjs/core';
 import helmet from 'helmet';
-import { json, urlencoded } from 'body-parser';
-import {
-  dbHost, dbPass, dbPort, dbUser, port,
-} from './config';
-import Game from './entities/Game';
-import History from './entities/History';
-import Player from './entities/Player';
-import Room from './entities/Room';
-import User from './entities/User';
-import routes from './routes';
-import { handleError, handleNotFound } from './middlewares/errorHandling';
 
-const main = async () => {
-  await createConnection({
-    type: 'postgres',
-    host: dbHost,
-    port: dbPort,
-    password: dbPass,
-    username: dbUser,
-    entities: [
-      Game,
-      History,
-      Player,
-      Room,
-      User,
-    ],
-    synchronize: true,
-  });
+import { AppModule } from './app.module';
+import { BadCredentialsFilter } from './filters/bad-credentials.filter';
+import { DisplayNameAlreadyTakenFilter } from './filters/display-name-already-taken.filter';
+import { EntityNotFoundFilter } from './filters/entity-not-found.filter';
+import { UniqueDisplayNameUserFilter } from './filters/unique-display-name-user.filter';
+import { UsernameAlreadyTakenFilter } from './filters/username-already-taken.filter';
+import { ConfigService } from './modules/core/services/config.service';
 
-  const app = express();
+const main = async (): Promise<void> => {
+  const app = await NestFactory.create(AppModule);
+  const configService = app.get(ConfigService);
+  const { port } = configService;
 
-  app
-    .use(helmet())
-    .use(cors())
-    .use(urlencoded({ extended: true }))
-    .use(json());
+  const pipes: PipeTransform[] = [
+    new ValidationPipe(),
+  ];
 
-  app
-    .use(routes);
+  const filters: ExceptionFilter[] = [
+    new EntityNotFoundFilter(),
+    new BadCredentialsFilter(),
+    new UsernameAlreadyTakenFilter(),
+    new DisplayNameAlreadyTakenFilter(),
+    new UniqueDisplayNameUserFilter(),
+  ];
 
-  app
-    .use('*', handleNotFound)
-    .use(handleError);
+  app.enableCors();
+  app.use(helmet());
 
-  app.listen(port, () => { console.log(`Listening on port ${port}`); });
+  app.useGlobalPipes(...pipes);
+  app.useGlobalFilters(...filters);
+
+  await app.listen(port);
 };
 
 void main();
