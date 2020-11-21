@@ -14,6 +14,12 @@ export class ConfigService {
       .asPortNumber();
   }
 
+  public get wsPort(): number {
+    return get('WS_PORT')
+      .required()
+      .asPortNumber();
+  }
+
   public get databaseConfiguration(): TypeOrmModuleOptions {
     return {
       type: 'postgres',

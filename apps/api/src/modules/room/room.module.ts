@@ -3,6 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { PlayerRepository } from '../player/player.repository';
 import { RoomController } from './room.controller';
+import { RoomGateway } from './room.gateway';
 import { RoomRepository } from './room.repository';
 import { RoomService } from './room.service';
 
@@ -11,7 +12,10 @@ import { RoomService } from './room.service';
     TypeOrmModule.forFeature([RoomRepository]),
     TypeOrmModule.forFeature([PlayerRepository]),
   ],
-  providers: [RoomService],
+  providers: [
+    RoomService,
+    RoomGateway,
+  ],
   controllers: [RoomController],
 })
 export class RoomModule {}

@@ -8,6 +8,7 @@ import { CreateRoomDto } from './dtos/create-room.dto';
 import { JoinRoomDto } from './dtos/join-room.dto';
 import { LeaveRoomDto } from './dtos/leave-room.dto';
 import { RoomDto } from './dtos/room.dto';
+import { RoomGateway } from './room.gateway';
 import { RoomRepository } from './room.repository';
 
 @Injectable()
@@ -15,6 +16,7 @@ export class RoomService {
   public constructor(
     private readonly roomRepository: RoomRepository,
     private readonly playerRepository: PlayerRepository,
+    private readonly roomGateway: RoomGateway,
   ) {}
 
   public async list(): Promise<RoomDto[]> {
@@ -35,10 +37,11 @@ export class RoomService {
 
     const result = await this.roomRepository.insert(room);
     const [identifier] = result.identifiers;
+    const roomId = identifier.id;
 
     await this.playerRepository.update(player.id, { ...player, isInRoom: true });
 
-    return { id: identifier.id };
+    return { id: roomId };
   }
 
   public async join(params: JoinRoomDto): Promise<void> {
@@ -53,6 +56,8 @@ export class RoomService {
     await this.roomRepository.update(updatedRoom.id, updatedRoom);
 
     await this.playerRepository.update(player.id, { ...player, isInRoom: true });
+
+    this.roomGateway.playerJoined(roomId, player.id);
   }
 
   public async leave(params: LeaveRoomDto): Promise<void> {
@@ -73,6 +78,8 @@ export class RoomService {
     if (room.players.length === 0) {
       await this.roomRepository.delete(roomId);
     }
+
+    this.roomGateway.playerLeft(roomId, player.id);
   }
 
   private async playerInRoomGuard(player: PlayerEntity): Promise<void> {

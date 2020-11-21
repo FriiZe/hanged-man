@@ -1,8 +1,10 @@
 import { ExceptionFilter, PipeTransform, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
+import { JwtService } from '@nestjs/jwt';
 import helmet from 'helmet';
 
 import { AppModule } from './app.module';
+import { CustomAdapter } from './common/custom.adapter';
 import { BadCredentialsFilter } from './filters/bad-credentials.filter';
 import { DisplayNameAlreadyTakenFilter } from './filters/display-name-already-taken.filter';
 import { EntityNotFoundFilter } from './filters/entity-not-found.filter';
@@ -14,6 +16,7 @@ import { ConfigService } from './modules/core/services/config.service';
 const main = async (): Promise<void> => {
   const app = await NestFactory.create(AppModule);
   const configService = app.get(ConfigService);
+
   const { port } = configService;
 
   const pipes: PipeTransform[] = [
@@ -34,6 +37,8 @@ const main = async (): Promise<void> => {
 
   app.useGlobalPipes(...pipes);
   app.useGlobalFilters(...filters);
+
+  app.useWebSocketAdapter(new CustomAdapter(configService, app));
 
   await app.listen(port);
 };
