@@ -6,6 +6,7 @@ import {
 import { LoggedUserDto } from '../../common/dtos/logged-user.dto';
 import { LoggedUser } from '../../decorators/logged-user.decorator';
 import { AuthGuard } from '../../guards/auth.guard';
+import { PlayerDto } from '../player/dtos/player.dto';
 import { CreateRoomDto } from './dtos/create-room.dto';
 import { RoomDto } from './dtos/room.dto';
 import { RoomService } from './room.service';
@@ -42,5 +43,12 @@ export class RoomController {
   @HttpCode(HttpStatus.ACCEPTED)
   public async leave(@Param('id') id: string, @LoggedUser() user: LoggedUserDto): Promise<void> {
     await this.roomService.leave({ roomId: id, userId: user.id });
+  }
+
+  @Get('/:id/players')
+  public async players(@Param('id') id: string): Promise<PlayerDto[]> {
+    const result = await this.roomService.players(id);
+
+    return result;
   }
 }

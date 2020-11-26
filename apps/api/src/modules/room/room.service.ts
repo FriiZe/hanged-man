@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 
 import { ForbiddenActionError } from '../../common/errors/forbidden-action.error';
+import { PlayerDto } from '../player/dtos/player.dto';
 import { PlayerEntity } from '../player/player.entity';
 import { PlayerRepository } from '../player/player.repository';
 import { CreateRoomDto } from './dtos/create-room.dto';
@@ -93,6 +94,15 @@ export class RoomService {
     }
 
     this.roomGateway.playerLeft(roomId, player.id);
+  }
+
+  public async players(roomId: string): Promise<PlayerDto[]> {
+    const room = await this.roomRepository.findOneOrFail(roomId);
+    const operations = room.players.map((player) => this.playerRepository.findOneOrFail(player));
+    const players = await Promise.all(operations);
+    const result = players.map(({ userId, ...rest }) => ({ ...rest }));
+
+    return result;
   }
 
   private async playerInRoomGuard(player: PlayerEntity): Promise<void> {
