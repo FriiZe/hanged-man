@@ -26,6 +26,12 @@ export class RoomService {
     return result.map(({ code, ...rest }) => ({ ...rest }));
   }
 
+  public async get(id: string): Promise<RoomDto> {
+    const { code, ...rest } = await this.roomRepository.findOneOrFail(id);
+
+    return rest;
+  }
+
   public async create(params: CreateRoomDto, userId: string): Promise<RoomDto> {
     const player = await this.playerRepository.findOneOrFail({ where: { userId } });
 

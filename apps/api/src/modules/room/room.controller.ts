@@ -25,6 +25,13 @@ export class RoomController {
     return result;
   }
 
+  @Get('/:id')
+  public async get(@Param('id') id: string): Promise<RoomDto> {
+    const result = await this.roomService.get(id);
+
+    return result;
+  }
+
   @Post('/')
   @HttpCode(HttpStatus.CREATED)
   public async create(@Body() body: CreateRoomDto, @LoggedUser() user: LoggedUserDto): Promise<RoomDto> {
