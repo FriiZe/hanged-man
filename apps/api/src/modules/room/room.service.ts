@@ -44,6 +44,7 @@ export class RoomService {
     await this.playerRepository.update(player.id, { ...player, isInRoom: true });
 
     const result = await this.roomRepository.findOneOrFail(roomId);
+    this.roomGateway.roomCreated(roomId);
 
     return result;
   }
@@ -86,6 +87,7 @@ export class RoomService {
     const room = await this.roomRepository.findOneOrFail(roomId);
     if (room.players.length === 0) {
       await this.roomRepository.delete(roomId);
+      this.roomGateway.roomDeleted(roomId);
     }
 
     this.roomGateway.playerLeft(roomId, player.id);

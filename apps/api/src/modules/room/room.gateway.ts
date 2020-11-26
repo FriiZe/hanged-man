@@ -25,4 +25,12 @@ export class RoomGateway implements OnGatewayConnection, OnGatewayDisconnect {
   public playerLeft(roomId: string, playerId: string): void {
     this.server.to(roomId).emit('player-left', { playerId });
   }
+
+  public roomCreated(roomId: string): void {
+    this.server.emit('room-created', { roomId });
+  }
+
+  public roomDeleted(roomId: string): void {
+    this.server.emit('room-deleted', { roomId });
+  }
 }
