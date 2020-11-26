@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 
-import { IdDto } from '../../common/dtos/id.dto';
 import { ForbiddenActionError } from '../../common/errors/forbidden-action.error';
 import { PlayerEntity } from '../player/player.entity';
 import { PlayerRepository } from '../player/player.repository';
@@ -20,10 +19,12 @@ export class RoomService {
   ) {}
 
   public async list(): Promise<RoomDto[]> {
-    return this.roomRepository.find();
+    const result = await this.roomRepository.find();
+
+    return result;
   }
 
-  public async create(params: CreateRoomDto, userId: string): Promise<IdDto> {
+  public async create(params: CreateRoomDto, userId: string): Promise<RoomDto> {
     const player = await this.playerRepository.findOneOrFail({ where: { userId } });
 
     await this.playerInRoomGuard(player);
@@ -35,13 +36,15 @@ export class RoomService {
       players: [player.id],
     };
 
-    const result = await this.roomRepository.insert(room);
-    const [identifier] = result.identifiers;
+    const { identifiers } = await this.roomRepository.insert(room);
+    const [identifier] = identifiers;
     const roomId = identifier.id;
 
     await this.playerRepository.update(player.id, { ...player, isInRoom: true });
 
-    return { id: roomId };
+    const result = await this.roomRepository.findOneOrFail(roomId);
+
+    return result;
   }
 
   public async join(params: JoinRoomDto): Promise<void> {

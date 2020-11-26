@@ -6,7 +6,6 @@ import {
   UseGuards,
 } from '@nestjs/common';
 
-import { IdDto } from '../../common/dtos/id.dto';
 import { LoggedUserDto } from '../../common/dtos/logged-user.dto';
 import { LoggedUser } from '../../decorators/logged-user.decorator';
 import { AuthGuard } from '../../guards/auth.guard';
@@ -36,7 +35,7 @@ export class PlayerController {
 
   @Post('/')
   @HttpCode(HttpStatus.CREATED)
-  public async create(@Body('displayName') displayName: string, @LoggedUser() user: LoggedUserDto): Promise<IdDto> {
+  public async create(@Body('displayName') displayName: string, @LoggedUser() user: LoggedUserDto): Promise<PlayerDto> {
     const result = await this.playerService.create({ displayName, userId: user.id });
 
     return result;
@@ -44,7 +43,9 @@ export class PlayerController {
 
   @Patch('/me')
   @HttpCode(HttpStatus.NO_CONTENT)
-  public async update(@Body('displayName') displayName: string, @LoggedUser() user: LoggedUserDto): Promise<void> {
-    await this.playerService.update({ displayName, userId: user.id });
+  public async update(@Body('displayName') displayName: string, @LoggedUser() user: LoggedUserDto): Promise<PlayerDto> {
+    const result = await this.playerService.update({ displayName, userId: user.id });
+
+    return result;
   }
 }

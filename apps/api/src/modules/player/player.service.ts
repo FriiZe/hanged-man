@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 
-import { IdDto } from '../../common/dtos/id.dto';
 import { UserRepository } from '../user/user.repository';
 import { CreatePlayerDto } from './dtos/create-player.dto';
 import { PlayerDto } from './dtos/player.dto';
@@ -22,7 +21,7 @@ export class PlayerService {
     return entity;
   }
 
-  public async create(player: CreatePlayerDto): Promise<IdDto> {
+  public async create(player: CreatePlayerDto): Promise<PlayerDto> {
     await this.writeGuard(player.displayName, player.userId);
 
     const searchUserId = await this.playerRepository.findOne({ where: { userId: player.userId } });
@@ -33,14 +32,18 @@ export class PlayerService {
     const result = await this.playerRepository.insert(player);
     const [identifier] = result.identifiers;
 
-    return { id: identifier.id };
+    return this.get(identifier.id);
   }
 
-  public async update(player: UpdatePlayerDto): Promise<void> {
+  public async update(player: UpdatePlayerDto): Promise<PlayerDto> {
     await this.writeGuard(player.displayName, player.userId);
 
     await this.playerRepository.findOneOrFail({ where: { userId: player.userId } });
     await this.playerRepository.update({ userId: player.userId }, player);
+
+    const result = await this.playerRepository.findOneOrFail({ where: { userId: player.userId } });
+
+    return result;
   }
 
   public async me(userId: string): Promise<PlayerDto> {

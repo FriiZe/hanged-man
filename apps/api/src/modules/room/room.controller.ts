@@ -3,7 +3,6 @@ import {
   Controller, Get, HttpCode, HttpStatus, Param, Post, UseGuards,
 } from '@nestjs/common';
 
-import { IdDto } from '../../common/dtos/id.dto';
 import { LoggedUserDto } from '../../common/dtos/logged-user.dto';
 import { LoggedUser } from '../../decorators/logged-user.decorator';
 import { AuthGuard } from '../../guards/auth.guard';
@@ -20,22 +19,26 @@ export class RoomController {
 
   @Get('/')
   public async list(): Promise<RoomDto[]> {
-    return this.roomService.list();
+    const result = await this.roomService.list();
+
+    return result;
   }
 
   @Post('/')
   @HttpCode(HttpStatus.CREATED)
-  public async create(@Body() body: CreateRoomDto, @LoggedUser() user: LoggedUserDto): Promise<IdDto> {
-    return this.roomService.create(body, user.id);
+  public async create(@Body() body: CreateRoomDto, @LoggedUser() user: LoggedUserDto): Promise<RoomDto> {
+    const result = await this.roomService.create(body, user.id);
+
+    return result;
   }
 
-  @Post('/join/:id')
+  @Post('/:id/join')
   @HttpCode(HttpStatus.ACCEPTED)
   public async join(@Param('id') id: string, @LoggedUser() user: LoggedUserDto): Promise<void> {
     await this.roomService.join({ roomId: id, userId: user.id });
   }
 
-  @Post('/leave/:id')
+  @Post('/:id/leave')
   @HttpCode(HttpStatus.ACCEPTED)
   public async leave(@Param('id') id: string, @LoggedUser() user: LoggedUserDto): Promise<void> {
     await this.roomService.leave({ roomId: id, userId: user.id });
