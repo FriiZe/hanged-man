@@ -4,4 +4,4 @@ class BadCodeError extends Error {
   }
 }
 
-export default BadCodeError;
+export { BadCodeError };

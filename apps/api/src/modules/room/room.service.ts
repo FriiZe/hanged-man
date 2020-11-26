@@ -7,7 +7,7 @@ import { CreateRoomDto } from './dtos/create-room.dto';
 import { JoinRoomDto } from './dtos/join-room.dto';
 import { LeaveRoomDto } from './dtos/leave-room.dto';
 import { RoomDto } from './dtos/room.dto';
-import BadCodeError from './errors/bad-code.error';
+import { BadCodeError } from './errors/bad-code.error';
 import { RoomGateway } from './room.gateway';
 import { RoomRepository } from './room.repository';
 
@@ -22,7 +22,7 @@ export class RoomService {
   public async list(): Promise<RoomDto[]> {
     const result = await this.roomRepository.find();
 
-    return result;
+    return result.map(({ code, ...rest }) => ({ ...rest }));
   }
 
   public async create(params: CreateRoomDto, userId: string): Promise<RoomDto> {
@@ -43,10 +43,10 @@ export class RoomService {
 
     await this.playerRepository.update(player.id, { ...player, isInRoom: true });
 
-    const result = await this.roomRepository.findOneOrFail(roomId);
+    const { code, ...rest } = await this.roomRepository.findOneOrFail(roomId);
     this.roomGateway.roomCreated(roomId);
 
-    return result;
+    return { ...rest };
   }
 
   public async join(params: JoinRoomDto): Promise<void> {
