@@ -54,8 +54,10 @@ export class RoomService {
 
     const { players, code, ...rest } = await this.roomRepository.findOneOrFail(roomId);
 
-    if (code !== params.code) {
-      throw new BadCodeError();
+    if (code != null) {
+      if (params.code !== code) {
+        throw new BadCodeError();
+      }
     }
 
     const player = await this.playerRepository.findOneOrFail({ where: { userId } });
