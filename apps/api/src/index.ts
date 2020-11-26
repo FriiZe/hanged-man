@@ -5,6 +5,7 @@ import helmet from 'helmet';
 
 import { AppModule } from './app.module';
 import { CustomAdapter } from './common/custom.adapter';
+import { BadCodeFilter } from './filters/bad-code.filter';
 import { BadCredentialsFilter } from './filters/bad-credentials.filter';
 import { DisplayNameAlreadyTakenFilter } from './filters/display-name-already-taken.filter';
 import { EntityNotFoundFilter } from './filters/entity-not-found.filter';
@@ -30,6 +31,7 @@ const main = async (): Promise<void> => {
     new DisplayNameAlreadyTakenFilter(),
     new UniqueDisplayNameUserFilter(),
     new ForbiddenActionFilter(),
+    new BadCodeFilter(),
   ];
 
   app.enableCors();
