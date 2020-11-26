@@ -7,6 +7,7 @@ import { CreateRoomDto } from './dtos/create-room.dto';
 import { JoinRoomDto } from './dtos/join-room.dto';
 import { LeaveRoomDto } from './dtos/leave-room.dto';
 import { RoomDto } from './dtos/room.dto';
+import BadCodeError from './errors/bad-code.error';
 import { RoomGateway } from './room.gateway';
 import { RoomRepository } from './room.repository';
 
@@ -50,7 +51,12 @@ export class RoomService {
   public async join(params: JoinRoomDto): Promise<void> {
     const { roomId, userId } = params;
 
-    const { players, ...rest } = await this.roomRepository.findOneOrFail(roomId);
+    const { players, code, ...rest } = await this.roomRepository.findOneOrFail(roomId);
+
+    if (code !== params.code) {
+      throw new BadCodeError();
+    }
+
     const player = await this.playerRepository.findOneOrFail({ where: { userId } });
 
     await this.playerInRoomGuard(player);
