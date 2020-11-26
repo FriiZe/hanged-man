@@ -34,8 +34,8 @@ export class RoomController {
 
   @Post('/:id/join')
   @HttpCode(HttpStatus.ACCEPTED)
-  public async join(@Param('id') id: string, @LoggedUser() user: LoggedUserDto): Promise<void> {
-    await this.roomService.join({ roomId: id, userId: user.id });
+  public async join(@Param('id') id: string, @LoggedUser() user: LoggedUserDto, @Body('code') code?: string): Promise<void> {
+    await this.roomService.join({ roomId: id, userId: user.id, code });
   }
 
   @Post('/:id/leave')
