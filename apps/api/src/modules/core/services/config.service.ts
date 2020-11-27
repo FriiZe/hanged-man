@@ -42,4 +42,10 @@ export class ConfigService {
   public get jwtSecret(): string {
     return get('JWT_SECRET').required().asString();
   }
+
+  public get environment(): 'DEVELOPMENT' | 'PRODUCTION' {
+    return get('ENVIRONMENT')
+      .required()
+      .asEnum(['DEVELOPMENT', 'PRODUCTION']);
+  }
 }
