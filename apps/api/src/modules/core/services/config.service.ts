@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { get } from 'env-var';
 
+import { GameEntity } from '../../game/game.entity';
 import { PlayerEntity } from '../../player/player.entity';
 import { RoomEntity } from '../../room/room.entity';
 import { UserEntity } from '../../user/user.entity';
@@ -31,6 +32,7 @@ export class ConfigService {
         UserEntity,
         PlayerEntity,
         RoomEntity,
+        GameEntity,
       ],
     };
   }
