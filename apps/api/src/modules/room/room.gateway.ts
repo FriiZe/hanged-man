@@ -2,6 +2,7 @@ import { Logger } from '@nestjs/common';
 import {
   OnGatewayConnection, OnGatewayDisconnect, WebSocketGateway, WebSocketServer,
 } from '@nestjs/websockets';
+// eslint-disable-next-line import/no-extraneous-dependencies
 import { Server, Socket } from 'socket.io';
 
 import { ConfigService } from '../core/services/config.service';

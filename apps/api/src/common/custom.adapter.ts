@@ -3,6 +3,7 @@ import { INestApplicationContext } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { IoAdapter } from '@nestjs/platform-socket.io';
 import { IncomingMessage } from 'http';
+// eslint-disable-next-line import/no-extraneous-dependencies
 import { ServerOptions } from 'socket.io';
 
 import { ConfigService } from '../modules/core/services/config.service';

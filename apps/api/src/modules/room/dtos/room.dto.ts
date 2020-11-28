@@ -3,5 +3,5 @@ export interface RoomDto {
   name: string;
   isPublic: boolean;
   players: string[];
-  gameId?: string;
+  gameId: string | null;
 }

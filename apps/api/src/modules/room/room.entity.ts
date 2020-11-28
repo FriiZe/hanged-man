@@ -12,8 +12,9 @@ export class RoomEntity {
 
   @Column({
     nullable: true,
+    type: String,
   })
-  public code?: string;
+  public code!: string | null;
 
   @Column({
     nullable: false,
@@ -29,6 +30,7 @@ export class RoomEntity {
 
   @Column({
     nullable: true,
+    type: String,
   })
-  public gameId?: string;
+  public gameId!: string | null;
 }

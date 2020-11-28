@@ -3,7 +3,7 @@ import {
 } from '@nestjs/common';
 import { Response } from 'express';
 
-import { UniqueDisplayNameUserError } from '../modules/player/errors/unique-display-name-user.error';
+import { UniqueDisplayNameUserError } from '../../modules/player/errors/unique-display-name-user.error';
 
 @Catch(UniqueDisplayNameUserError)
 export class UniqueDisplayNameUserFilter implements ExceptionFilter<UniqueDisplayNameUserError> {

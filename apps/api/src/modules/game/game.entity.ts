@@ -7,8 +7,9 @@ export class GameEntity {
 
   @Column({
     nullable: true,
+    type: String,
   })
-  public winner?: string;
+  public winner!: string | null;
 
   @Column({
     default: false,

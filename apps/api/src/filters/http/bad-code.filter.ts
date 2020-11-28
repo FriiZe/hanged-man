@@ -3,7 +3,7 @@ import {
 } from '@nestjs/common';
 import { Response } from 'express';
 
-import { BadCodeError } from '../modules/room/errors/bad-code.error';
+import { BadCodeError } from '../../modules/room/errors/bad-code.error';
 
 @Catch(BadCodeError)
 export class BadCodeFilter implements ExceptionFilter<BadCodeError> {

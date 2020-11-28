@@ -3,7 +3,7 @@ import {
 } from '@nestjs/common';
 import { Response } from 'express';
 
-import { UsernameAlreadyTakenError } from '../modules/auth/errors/username-already-taken.error';
+import { UsernameAlreadyTakenError } from '../../modules/auth/errors/username-already-taken.error';
 
 @Catch(UsernameAlreadyTakenError)
 export class UsernameAlreadyTakenFilter implements ExceptionFilter<UsernameAlreadyTakenError> {

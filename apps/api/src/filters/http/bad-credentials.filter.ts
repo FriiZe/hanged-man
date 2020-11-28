@@ -3,7 +3,7 @@ import {
 } from '@nestjs/common';
 import { Response } from 'express';
 
-import { BadCredentialsError } from '../modules/auth/errors/bad-credentials.error';
+import { BadCredentialsError } from '../../modules/auth/errors/bad-credentials.error';
 
 @Catch(BadCredentialsError)
 export class BadCredentialsFilter implements ExceptionFilter<BadCredentialsError> {

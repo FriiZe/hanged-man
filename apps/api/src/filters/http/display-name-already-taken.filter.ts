@@ -3,7 +3,7 @@ import {
 } from '@nestjs/common';
 import { Response } from 'express';
 
-import { DisplayNameAlreadyTakenError } from '../modules/player/errors/display-name-already-taken.error';
+import { DisplayNameAlreadyTakenError } from '../../modules/player/errors/display-name-already-taken.error';
 
 @Catch(DisplayNameAlreadyTakenError)
 export class DisplayNameAlreadyTakenFilter implements ExceptionFilter<DisplayNameAlreadyTakenError> {

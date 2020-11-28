@@ -1,17 +1,16 @@
 import { ExceptionFilter, PipeTransform, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
-import { JwtService } from '@nestjs/jwt';
 import helmet from 'helmet';
 
 import { AppModule } from './app.module';
 import { CustomAdapter } from './common/custom.adapter';
-import { BadCodeFilter } from './filters/bad-code.filter';
-import { BadCredentialsFilter } from './filters/bad-credentials.filter';
-import { DisplayNameAlreadyTakenFilter } from './filters/display-name-already-taken.filter';
-import { EntityNotFoundFilter } from './filters/entity-not-found.filter';
-import { ForbiddenActionFilter } from './filters/forbidden-action.filter';
-import { UniqueDisplayNameUserFilter } from './filters/unique-display-name-user.filter';
-import { UsernameAlreadyTakenFilter } from './filters/username-already-taken.filter';
+import { BadCodeFilter } from './filters/http/bad-code.filter';
+import { BadCredentialsFilter } from './filters/http/bad-credentials.filter';
+import { DisplayNameAlreadyTakenFilter } from './filters/http/display-name-already-taken.filter';
+import { HttpEntityNotFoundFilter } from './filters/http/http-entity-not-found.filter';
+import { HttpForbiddenActionFilter } from './filters/http/http-forbidden-action.filter';
+import { UniqueDisplayNameUserFilter } from './filters/http/unique-display-name-user.filter';
+import { UsernameAlreadyTakenFilter } from './filters/http/username-already-taken.filter';
 import { ConfigService } from './modules/core/services/config.service';
 
 const main = async (): Promise<void> => {
@@ -25,12 +24,12 @@ const main = async (): Promise<void> => {
   ];
 
   const filters: ExceptionFilter[] = [
-    new EntityNotFoundFilter(),
+    new HttpEntityNotFoundFilter(),
     new BadCredentialsFilter(),
     new UsernameAlreadyTakenFilter(),
     new DisplayNameAlreadyTakenFilter(),
     new UniqueDisplayNameUserFilter(),
-    new ForbiddenActionFilter(),
+    new HttpForbiddenActionFilter(),
     new BadCodeFilter(),
   ];
 

@@ -1,5 +1,4 @@
 import { Module } from '@nestjs/common';
-import { JwtModule } from '@nestjs/jwt';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { CoreModule } from '../core/core.module';
@@ -12,12 +11,7 @@ import JwtStrategy from './auth.strategy';
 @Module({
   imports: [
     TypeOrmModule.forFeature([UserRepository]),
-    ConfigService,
-    JwtModule.registerAsync({
-      imports: [CoreModule],
-      inject: [ConfigService],
-      useFactory: (configService: ConfigService) => ({ secret: configService.jwtSecret }),
-    }),
+    CoreModule,
   ],
   providers: [
     AuthService,
