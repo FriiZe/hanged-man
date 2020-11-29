@@ -28,14 +28,6 @@ export class RoomGateway implements OnGatewayConnection, OnGatewayDisconnect {
     });
   }
 
-  public handleDisconnect(client: Socket): void {
-    if (this.configService.environment === 'DEVELOPMENT') {
-      this.logger.log(`client ${client.id} disconnected`);
-    }
-
-    client.leaveAll();
-  }
-
   public playerJoined(roomId: string, playerId: string): void {
     this.server.to(roomId).emit('player-joined', { playerId });
   }
@@ -44,11 +36,23 @@ export class RoomGateway implements OnGatewayConnection, OnGatewayDisconnect {
     this.server.to(roomId).emit('player-left', { playerId });
   }
 
+  public gameStarted(roomId: string, gameId: string): void {
+    this.server.to(roomId).emit('game-started', { gameId });
+  }
+
   public roomCreated(roomId: string): void {
     this.server.emit('room-created', { roomId });
   }
 
   public roomDeleted(roomId: string): void {
     this.server.emit('room-deleted', { roomId });
+  }
+
+  public handleDisconnect(client: Socket): void {
+    if (this.configService.environment === 'DEVELOPMENT') {
+      this.logger.log(`client ${client.id} disconnected`);
+    }
+
+    client.leaveAll();
   }
 }

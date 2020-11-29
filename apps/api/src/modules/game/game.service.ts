@@ -3,6 +3,7 @@ import { Injectable } from '@nestjs/common';
 
 import { ForbiddenActionError } from '../../common/errors/forbidden-action.error';
 import { PlayerRepository } from '../player/player.repository';
+import { RoomGateway } from '../room/room.gateway';
 import { RoomRepository } from '../room/room.repository';
 import { GameDto } from './dtos/game.dto';
 import { GameNotFoundError } from './errors/game-not-found.error';
@@ -16,6 +17,7 @@ export class GameService {
     private readonly roomRepository: RoomRepository,
     private readonly gameRepository: GameRepository,
     private readonly playerRepository: PlayerRepository,
+    private readonly roomGateway: RoomGateway,
   ) {}
 
   public async create(roomId: string, userId: string, trials?: number): Promise<GameDto> {
@@ -50,6 +52,8 @@ export class GameService {
     await Promise.all(updatePlayersOperations);
 
     const { winner, isFinished, partialWord } = await this.gameRepository.findOneOrFail(id);
+
+    this.roomGateway.gameStarted(roomId, id);
 
     return {
       id, winner, isFinished, trials: game.trials, partialWord,

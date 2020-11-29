@@ -3,6 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { CoreModule } from '../core/core.module';
 import { PlayerRepository } from '../player/player.repository';
+import { RoomModule } from '../room/room.module';
 import { RoomRepository } from '../room/room.repository';
 import { GameController } from './game.controller';
 import { GameGateway } from './game.gateway';
@@ -12,6 +13,7 @@ import { GameService } from './game.service';
 @Module({
   imports: [
     CoreModule,
+    RoomModule,
     TypeOrmModule.forFeature([GameRepository]),
     TypeOrmModule.forFeature([RoomRepository]),
     TypeOrmModule.forFeature([PlayerRepository]),
