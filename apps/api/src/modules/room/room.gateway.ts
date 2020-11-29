@@ -11,12 +11,12 @@ import { ConfigService } from '../core/services/config.service';
 export class RoomGateway implements OnGatewayConnection, OnGatewayDisconnect {
   private readonly logger = new Logger(RoomGateway.name);
 
+  @WebSocketServer()
+  private readonly server!: Server;
+
   public constructor(
     private readonly configService: ConfigService,
   ) {}
-
-  @WebSocketServer()
-  private readonly server!: Server;
 
   public handleConnection(client: Socket): void {
     if (this.configService.environment === 'DEVELOPMENT') {

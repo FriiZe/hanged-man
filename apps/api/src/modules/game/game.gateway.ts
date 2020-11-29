@@ -1,9 +1,9 @@
 import { Logger, UseFilters, UseGuards } from '@nestjs/common';
 import {
-  MessageBody, OnGatewayConnection, OnGatewayDisconnect, SubscribeMessage, WebSocketGateway,
+  MessageBody, OnGatewayConnection, OnGatewayDisconnect, SubscribeMessage, WebSocketGateway, WebSocketServer,
 } from '@nestjs/websockets';
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { Socket } from 'socket.io';
+import { Server, Socket } from 'socket.io';
 
 import { LoggedUserWs } from '../../decorators/logged-user-ws.decorator';
 import { AlreadySuggestedFilter } from '../../filters/ws/already-suggested.filter';
@@ -25,6 +25,9 @@ import { GameService } from './game.service';
 export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
   private readonly logger = new Logger(GameGateway.name);
 
+  @WebSocketServer()
+  private readonly server!: Server;
+
   public constructor(
     private readonly configService: ConfigService,
     private readonly gameService: GameService,
@@ -42,10 +45,10 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
   @UseGuards(AuthWsGuard)
   @SubscribeMessage('play')
-  public async play(@MessageBody() data: { gameId: string, input: string }, @LoggedUserWs() userId: string): Promise<GameDto> {
+  public async play(@MessageBody() data: { gameId: string, input: string }, @LoggedUserWs() userId: string): Promise<void> {
     const result = await this.gameService.play(data.gameId, data.input, userId);
 
-    return result;
+    this.server.to(data.gameId).emit('player-played', result);
   }
 
   public handleDisconnect(client: Socket): void {

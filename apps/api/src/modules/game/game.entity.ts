@@ -12,6 +12,11 @@ export class GameEntity {
   public winner!: string | null;
 
   @Column({
+    nullable: false,
+  })
+  public currentPlayer!: string;
+
+  @Column({
     default: false,
     nullable: false,
   })

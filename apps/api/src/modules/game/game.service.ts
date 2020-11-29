@@ -44,6 +44,7 @@ export class GameService {
 
     const game = new Engine(ids, trials);
     const toInsert = {
+      currentPlayer: game.getCurrentPlayer(),
       finalWord: game.word,
       partialWord: game.partialWord,
       trials: game.trials,
@@ -61,12 +62,19 @@ export class GameService {
     const updatePlayersOperations = updatedPlayers.map((p) => this.playerRepository.update(p.id, p));
     await Promise.all(updatePlayersOperations);
 
-    const { winner, isFinished, partialWord } = await this.gameRepository.findOneOrFail(id);
+    const {
+      winner, currentPlayer, isFinished, partialWord,
+    } = await this.gameRepository.findOneOrFail(id);
 
     this.roomGateway.gameCreated(roomId, id);
 
     return {
-      id, winner, isFinished, trials: game.trials, partialWord,
+      id,
+      winner,
+      currentPlayer,
+      isFinished,
+      trials: game.trials,
+      partialWord,
     };
   }
 
@@ -119,6 +127,7 @@ export class GameService {
     const result: GameDto = {
       id: game.id,
       trials: game.trials,
+      currentPlayer: currentGame.getCurrentPlayer(),
       isFinished,
       partialWord,
       winner,
