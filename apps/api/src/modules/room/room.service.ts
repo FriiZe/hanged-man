@@ -42,6 +42,7 @@ export class RoomService {
       code: params.code,
       isPublic: params.code === undefined,
       players: [player.id],
+      owner: player.id,
     };
 
     const { identifiers } = await this.roomRepository.insert(room);
@@ -94,12 +95,12 @@ export class RoomService {
     await this.playerRepository.update(player.id, { ...player, isInRoom: false });
 
     const room = await this.roomRepository.findOneOrFail(roomId);
-    if (room.players.length === 0) {
+    if (room.players.length === 0 || player.id === room.owner) {
       await this.roomRepository.delete(roomId);
       this.roomGateway.roomDeleted(roomId);
+    } else {
+      this.roomGateway.playerLeft(roomId, player.id);
     }
-
-    this.roomGateway.playerLeft(roomId, player.id);
   }
 
   public async players(roomId: string): Promise<PlayerDto[]> {

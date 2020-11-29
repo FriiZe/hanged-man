@@ -18,12 +18,17 @@ export class GameService {
     private readonly playerRepository: PlayerRepository,
   ) {}
 
-  public async create(roomId: string, trials?: number): Promise<GameDto> {
+  public async create(roomId: string, userId: string, trials?: number): Promise<GameDto> {
     const room = await this.roomRepository.findOneOrFail(roomId);
+    const player = await this.playerRepository.findOneOrFail({ where: { userId } });
+
+    if (player.id !== room.owner) {
+      throw new ForbiddenActionError();
+    }
 
     const getPlayersOperations = room.players.map((id) => this.playerRepository.findOneOrFail(id));
     const players = await Promise.all(getPlayersOperations);
-    const ids = players.map((player) => player.id);
+    const ids = players.map((p) => p.id);
 
     const game = new Engine(ids, trials);
     const toInsert = {
@@ -40,8 +45,8 @@ export class GameService {
 
     this.games[id] = game;
 
-    const updatedPlayers = players.map((player) => ({ ...player, isInGame: true }));
-    const updatePlayersOperations = updatedPlayers.map((player) => this.playerRepository.update(player.id, player));
+    const updatedPlayers = players.map((p) => ({ ...p, isInGame: true }));
+    const updatePlayersOperations = updatedPlayers.map((p) => this.playerRepository.update(p.id, p));
     await Promise.all(updatePlayersOperations);
 
     const { winner, isFinished, partialWord } = await this.gameRepository.findOneOrFail(id);

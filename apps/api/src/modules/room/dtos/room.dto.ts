@@ -3,5 +3,6 @@ export interface RoomDto {
   name: string;
   isPublic: boolean;
   players: string[];
+  owner: string;
   gameId: string | null;
 }

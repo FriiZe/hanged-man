@@ -29,6 +29,11 @@ export class RoomEntity {
   public players!: string[];
 
   @Column({
+    nullable: false,
+  })
+  public owner!: string;
+
+  @Column({
     nullable: true,
     type: String,
   })
