@@ -12,7 +12,6 @@ import { WsEntityNotFoundFilter } from '../../filters/ws/ws-entity-not-found.fil
 import { WsForbiddenActionFilter } from '../../filters/ws/ws-forbidden-action.filter';
 import { AuthWsGuard } from '../../guards/auth-ws.guard';
 import { ConfigService } from '../core/services/config.service';
-import { GameDto } from './dtos/game.dto';
 import { GameService } from './game.service';
 
 @UseFilters(

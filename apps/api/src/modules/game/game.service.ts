@@ -88,6 +88,8 @@ export class GameService {
       throw new GameNotFoundError();
     }
 
+    let currentPlayer = currentGame.getCurrentPlayer();
+
     if (game.isFinished) {
       throw new ForbiddenActionError();
     }
@@ -96,18 +98,19 @@ export class GameService {
       throw new ForbiddenActionError();
     }
 
-    if (currentGame.getCurrentPlayer() !== player.id) {
+    if (currentPlayer !== player.id) {
       throw new ForbiddenActionError();
     }
 
     const partialWord = currentGame.checkInput(input);
     const isFinished = currentGame.gameState() !== 0;
     const winner = (currentGame.gameState() === 1)
-      ? currentGame.getCurrentPlayer()
+      ? currentPlayer
       : null;
 
     if (currentGame.gameState() === 0) {
       currentGame.nextPlayer();
+      currentPlayer = currentGame.getCurrentPlayer();
     }
 
     if (isFinished) {
@@ -122,12 +125,17 @@ export class GameService {
       await Promise.all(freePlayersOperations);
     }
 
-    await this.gameRepository.update(gameId, { isFinished, partialWord, winner });
+    await this.gameRepository.update(gameId, {
+      isFinished,
+      partialWord,
+      winner,
+      currentPlayer,
+    });
 
     const result: GameDto = {
       id: game.id,
       trials: game.trials,
-      currentPlayer: currentGame.getCurrentPlayer(),
+      currentPlayer,
       isFinished,
       partialWord,
       winner,
