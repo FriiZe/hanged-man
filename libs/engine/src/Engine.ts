@@ -78,7 +78,12 @@ class Engine {
   }
 
   private checkWord(word: string): string {
-    return [...word].map((letter) => this.checkLetter(letter)).toString();
+    if (word === this.word) {
+      this.partialWord = word;
+      return word;
+    }
+
+    return this.partialWord;
   }
 
   private checkLetter(letter: string): string {
