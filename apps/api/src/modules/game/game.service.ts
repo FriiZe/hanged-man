@@ -28,6 +28,10 @@ export class GameService {
       throw new ForbiddenActionError();
     }
 
+    if (room.players.length < 2) {
+      throw new ForbiddenActionError();
+    }
+
     const getPlayersOperations = room.players.map((id) => this.playerRepository.findOneOrFail(id));
     const players = await Promise.all(getPlayersOperations);
     const ids = players.map((p) => p.id);
