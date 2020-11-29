@@ -1,6 +1,6 @@
 import {
   Body,
-  Controller, HttpCode, HttpStatus, Post, UseGuards,
+  Controller, Get, HttpCode, HttpStatus, Param, Post, UseGuards,
 } from '@nestjs/common';
 
 import { LoggedUserDto } from '../../common/dtos/logged-user.dto';
@@ -16,6 +16,13 @@ export class GameController {
   public constructor(
     private readonly gameService: GameService,
   ) {}
+
+  @Get('/:id')
+  public async get(@Param('id') id: string): Promise<GameDto> {
+    const result = await this.gameService.get(id);
+
+    return result;
+  }
 
   @HttpCode(HttpStatus.CREATED)
   @Post('/')

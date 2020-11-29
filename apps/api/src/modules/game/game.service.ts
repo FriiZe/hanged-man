@@ -20,6 +20,12 @@ export class GameService {
     private readonly roomGateway: RoomGateway,
   ) {}
 
+  public async get(gameId: string): Promise<GameDto> {
+    const result = await this.gameRepository.findOneOrFail(gameId);
+
+    return result;
+  }
+
   public async create(roomId: string, userId: string, trials?: number): Promise<GameDto> {
     const room = await this.roomRepository.findOneOrFail(roomId);
     const player = await this.playerRepository.findOneOrFail({ where: { userId } });
@@ -57,7 +63,7 @@ export class GameService {
 
     const { winner, isFinished, partialWord } = await this.gameRepository.findOneOrFail(id);
 
-    this.roomGateway.gameStarted(roomId, id);
+    this.roomGateway.gameCreated(roomId, id);
 
     return {
       id, winner, isFinished, trials: game.trials, partialWord,
