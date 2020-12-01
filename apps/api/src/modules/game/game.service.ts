@@ -125,6 +125,8 @@ export class GameService {
 
       const freePlayersOperations = room.players.map((playerId) => this.playerRepository.update(playerId, { isInGame: false, isInRoom: false }));
       await Promise.all(freePlayersOperations);
+
+      await this.roomRepository.delete(room.id);
     }
 
     await this.gameRepository.update(gameId, {
