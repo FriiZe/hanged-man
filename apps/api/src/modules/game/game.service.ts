@@ -23,7 +23,7 @@ export class GameService {
   public async get(gameId: string): Promise<GameDto> {
     const result = await this.gameRepository.findOneOrFail(gameId);
 
-    return result;
+    return { ...result, letterHistory: [], wordHistory: [] };
   }
 
   public async create(roomId: string, userId: string, trials?: number): Promise<GameDto> {
@@ -75,6 +75,8 @@ export class GameService {
       isFinished,
       trials: game.trials,
       partialWord,
+      letterHistory: [],
+      wordHistory: [],
     };
   }
 
@@ -135,6 +137,8 @@ export class GameService {
     const result: GameDto = {
       id: game.id,
       trials: game.trials,
+      letterHistory: currentGame.letterHistory,
+      wordHistory: currentGame.wordHistory,
       currentPlayer,
       isFinished,
       partialWord,

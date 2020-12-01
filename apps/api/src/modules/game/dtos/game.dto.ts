@@ -4,5 +4,7 @@ export interface GameDto {
   currentPlayer: string;
   isFinished: boolean;
   trials: number;
+  letterHistory: string[];
+  wordHistory: string[];
   partialWord: string;
 }
