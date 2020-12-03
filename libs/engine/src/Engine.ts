@@ -5,9 +5,8 @@ import shuffle from 'shuffle-array';
 import { LetterAlreadySuggestedError, WordAlreadySuggestedError } from './errors';
 import words from './words';
 
-// TODO: Fix bugs
 class Engine {
-  private static readonly TRIALS = 5;
+  private static readonly TRIALS = 10;
 
   public players: string[];
 
