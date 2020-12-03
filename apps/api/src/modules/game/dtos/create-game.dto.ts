@@ -9,7 +9,7 @@ export class CreateGameDto {
 
   @IsInt()
   @Min(0)
-  @Max(5)
+  @Max(50)
   @IsOptional()
   public trials?: number;
 }
