@@ -104,7 +104,7 @@ export class GameService {
       throw new ForbiddenActionError();
     }
 
-    const partialWord = currentGame.checkInput(input);
+    let partialWord = currentGame.checkInput(input);
     const isFinished = currentGame.gameState() !== 0;
     const winner = (currentGame.gameState() === 1)
       ? currentPlayer
@@ -121,6 +121,8 @@ export class GameService {
       if (winner != null) {
         const winnerEntity = await this.playerRepository.findOneOrFail(winner);
         await this.playerRepository.update(winner, { gamesWon: winnerEntity.gamesWon + 1 });
+      } else {
+        partialWord = currentGame.word;
       }
 
       const freePlayersOperations = room.players.map((playerId) => this.playerRepository.update(playerId, { isInGame: false, isInRoom: false }));
