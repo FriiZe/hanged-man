@@ -60,12 +60,18 @@ export class RoomService {
   public async join(params: JoinRoomDto): Promise<void> {
     const { roomId, userId } = params;
 
-    const { players, code, ...rest } = await this.roomRepository.findOneOrFail(roomId);
+    const {
+      players, code, gameId, ...rest
+    } = await this.roomRepository.findOneOrFail(roomId);
 
     if (code != null) {
       if (params.code !== code) {
         throw new BadCodeError();
       }
+    }
+
+    if (gameId != null) {
+      throw new ForbiddenActionError();
     }
 
     const player = await this.playerRepository.findOneOrFail({ where: { userId } });
