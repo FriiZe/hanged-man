@@ -9,14 +9,14 @@ import { DisplayNameAlreadyTakenError } from '../../modules/player/errors/displa
 export class DisplayNameAlreadyTakenFilter implements ExceptionFilter<DisplayNameAlreadyTakenError> {
   public catch(exception: DisplayNameAlreadyTakenError, host: ArgumentsHost): void {
     const response = host.switchToHttp().getResponse<Response>();
-    const status = HttpStatus.NOT_FOUND;
+    const status = HttpStatus.CONFLICT;
 
     response
       .status(status)
       .json({
         statusCode: status,
         message: [exception.message],
-        error: 'Not Found',
+        error: 'Conflict',
       });
   }
 }
