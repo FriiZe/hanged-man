@@ -7,7 +7,7 @@ import words from './words';
 
 // TODO: Fix bugs
 class Engine {
-  private static readonly TRIALS = 15;
+  private static readonly TRIALS = 5;
 
   public players: string[];
 

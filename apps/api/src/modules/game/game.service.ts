@@ -138,7 +138,7 @@ export class GameService {
 
     const result: GameDto = {
       id: game.id,
-      trials: game.trials,
+      trials: currentGame.trials,
       letterHistory: currentGame.letterHistory,
       wordHistory: currentGame.wordHistory,
       currentPlayer,
