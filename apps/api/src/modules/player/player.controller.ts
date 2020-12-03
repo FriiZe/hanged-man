@@ -42,7 +42,6 @@ export class PlayerController {
   }
 
   @Patch('/me')
-  @HttpCode(HttpStatus.NO_CONTENT)
   public async update(@Body('displayName') displayName: string, @LoggedUser() user: LoggedUserDto): Promise<PlayerDto> {
     const result = await this.playerService.update({ displayName, userId: user.id });
 
